@@ -1,4 +1,3 @@
-
 document.getElementById('image-form').addEventListener('submit', function(event) {
     event.preventDefault();
     const fileInput = document.getElementById('image-file');
@@ -14,7 +13,7 @@ document.getElementById('image-form').addEventListener('submit', function(event)
         const signatureUrl = 'https://i.imgur.com/L9TaQjM.png'; // Updated signature image URL
 
         console.log("Image URL:", imageUrl);
-        processImage(imageUrl, signatureUrl);
+        compressAndProcessImage(imageUrl, signatureUrl);
     };
     reader.onerror = function(error) {
         console.error("Error reading file:", error);
@@ -23,8 +22,7 @@ document.getElementById('image-form').addEventListener('submit', function(event)
     reader.readAsDataURL(file);
 });
 
-function processImage(imageUrl, signatureUrl) {
-    showLoading(true);
+function compressAndProcessImage(imageUrl, signatureUrl) {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
 
@@ -33,6 +31,47 @@ function processImage(imageUrl, signatureUrl) {
 
     image.onload = function() {
         console.log("Image loaded successfully.");
+        // Set canvas dimensions for compression
+        const maxWidth = 1000; // Max width for the compressed image
+        const maxHeight = 1000; // Max height for the compressed image
+        let width = image.width;
+        let height = image.height;
+
+        if (width > height) {
+            if (width > maxWidth) {
+                height *= maxWidth / width;
+                width = maxWidth;
+            }
+        } else {
+            if (height > maxHeight) {
+                width *= maxHeight / height;
+                height = maxHeight;
+            }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        ctx.drawImage(image, 0, 0, width, height);
+
+        const compressedImageUrl = canvas.toDataURL('image/jpeg', 0.7); // Compress image to 70% quality
+        overlaySignature(compressedImageUrl, signatureUrl);
+    };
+    image.onerror = function() {
+        console.error("Error loading main image.");
+        showError('Error loading the uploaded image.');
+        showLoading(false);
+    };
+}
+
+function overlaySignature(compressedImageUrl, signatureUrl) {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
+    const image = new Image();
+    image.src = compressedImageUrl;
+
+    image.onload = function() {
+        console.log("Compressed image loaded successfully.");
         canvas.width = image.width;
         canvas.height = image.height;
         ctx.drawImage(image, 0, 0);
@@ -75,8 +114,8 @@ function processImage(imageUrl, signatureUrl) {
         };
     };
     image.onerror = function() {
-        console.error("Error loading main image.");
-        showError('Error loading the uploaded image.');
+        console.error("Error loading compressed image.");
+        showError('Error loading the compressed image.');
         showLoading(false);
     };
 }
