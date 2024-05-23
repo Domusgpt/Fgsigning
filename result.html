@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frequency Golems Album Release Signing</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-900 text-white flex items-center justify-center h-screen">
+    <div class="text-center">
+        <h1 class="text-5xl font-bold neon">Your Customized Image</h1>
+        <img id="result-image" class="mt-8 mx-auto" alt="Customized Image">
+        <p id="random-message" class="mt-8 text-orange-500 text-xl font-bold"></p>
+    </div>
+    <script>
+        window.addEventListener('load', function() {
+            const resultImage = localStorage.getItem('resultImage');
+            const randomMessage = localStorage.getItem('randomMessage');
+
+            if (resultImage) {
+                console.log("Displaying result image.");
+                document.getElementById('result-image').src = resultImage;
+            }
+            if (randomMessage) {
+                console.log("Displaying random message.");
+                document.getElementById('random-message').innerText = randomMessage;
+            }
+        });
+    </script>
+</body>
+</html>

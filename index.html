@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frequency Golems Album Release Signing</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-900 text-white flex items-center justify-center h-screen">
+    <div class="text-center">
+        <h1 class="text-5xl font-bold neon">Frequency Golems Album Release Signing</h1>
+        <p class="mt-8 text-orange-500 text-xl font-bold">Upload your image and get it returned with a rare Frequency Golems signature and message.</p>
+        <form id="image-form" class="mt-8">
+            <input type="file" id="image-file" class="p-2 text-black w-80" accept="image/*" required>
+            <button type="submit" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+        </form>
+        <div id="loading-spinner" class="hidden mt-8">
+            <div class="loader"></div>
+            <p class="mt-4 text-xl">Processing your image...</p>
+        </div>
+        <div id="error-message" class="hidden mt-4 text-red-500 text-xl font-bold"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
